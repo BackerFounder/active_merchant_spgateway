@@ -16,7 +16,6 @@ module OffsitePayments #:nodoc:
         MerchantID LangType TradeLimit ExpireDate NotifyURL EmailModify LoginType
       )
 
-      mattr_accessor :service_url
       mattr_accessor :hash_key
       mattr_accessor :hash_iv
       mattr_accessor :debug
@@ -25,7 +24,13 @@ module OffsitePayments #:nodoc:
         mattr_accessor field.underscore.to_sym
       end
 
+      def self.service_url=(service_url)
+        @service_url = service_url
+      end
+
       def self.service_url
+        return @service_url if @service_url
+
         mode = ActiveMerchant::Billing::Base.mode
         case mode
           when :production
