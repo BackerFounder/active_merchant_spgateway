@@ -36,9 +36,9 @@ module OffsitePayments #:nodoc:
           when :production
             'https://core.spgateway.com/MPG/mpg_gateway'
           when :development
-            'https://ccore.spgateway.com/MPG/mpg_gateway'
+            'https://cwww.newebpay.com/MPG/mpg_gateway'
           when :test
-            'https://ccore.spgateway.com/MPG/mpg_gateway'
+            'https://cwww.newebpay.com/MPG/mpg_gateway'
           else
             raise StandardError, "Integration mode set to an invalid value: #{mode}"
         end
