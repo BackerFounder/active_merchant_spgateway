@@ -16,8 +16,7 @@ And then execute:
 
 ## 如何更新版本
 
-修改程式後也需要修改 `lib/active_merchant_spgateway/version.rb` 裡的 VERSION
-這樣其他 repository 才能更新 gem
+修改程式後也需要修改 `lib/active_merchant_spgateway/version.rb` 裡的 `VERSION`，這樣其他 repository 才能更新 gem。
 
 ## License
 
