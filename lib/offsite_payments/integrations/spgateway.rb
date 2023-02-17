@@ -34,7 +34,7 @@ module OffsitePayments #:nodoc:
         mode = ActiveMerchant::Billing::Base.mode
         case mode
           when :production
-            'https://core.spgateway.com/MPG/mpg_gateway'
+            'https://core.newebpay.com/MPG/mpg_gateway'
           when :development
             'https://ccore.newebpay.com/MPG/mpg_gateway'
           when :test
