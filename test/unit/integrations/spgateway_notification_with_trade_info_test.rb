@@ -2,15 +2,13 @@
 
 require 'test_helper'
 
-class SpgatewayNotificationWithDifferentMerchantHashTest < Test::Unit::TestCase
+class SpgatewayNotificationTestWithTradeInfo < Test::Unit::TestCase
   include OffsitePayments::Integrations
 
   def setup
-    @spgateway = Spgateway::Notification.new(
-      http_raw_data,
-      hash_key: 'Fs5cX1TGqYM2PpdbE14a9H83YQSQF5jn',
-      hash_iv: 'C6AcmfqJILwgnhIP'
-    )
+    OffsitePayments::Integrations::Spgateway.hash_key = 'Fs5cX1TGqYM2PpdbE14a9H83YQSQF5jn'
+    OffsitePayments::Integrations::Spgateway.hash_iv = 'C6AcmfqJILwgnhIP'
+    @spgateway = Spgateway::Notification.new(http_raw_data)
   end
 
   def test_complete?
@@ -41,6 +39,7 @@ class SpgatewayNotificationWithDifferentMerchantHashTest < Test::Unit::TestCase
     assert_equal '', @spgateway.trade_info.eci
     assert_equal '2023-09-27 14:21:59', @spgateway.trade_info.pay_time
     assert_equal 'CREDIT', @spgateway.trade_info.payment_method
+    assert_equal 'Status=SUCCESS&Message=%E6%8E%88%E6%AC%8A%E6%88%90%E5%8A%9F&MerchantID=MS127874575&Amt=30&TradeNo=23092714215835071&MerchantOrderNo=Vanespl_ec_1695795668&RespondType=String&IP=123.51.237.115&EscrowBank=HNCB&PaymentType=CREDIT&RespondCode=00&Auth=115468&Card6No=400022&Card4No=1111&Exp=2609&AuthBank=KGI&TokenUseStatus=0&InstFirst=0&InstEach=0&Inst=0&ECI=&PayTime=2023-09-27+14%3A21%3A59&PaymentMethod=CREDIT', @spgateway.trade_info.encode_www_form # rubocop:disable Layout/LineLength
   end
 
   def test_checksum_ok?
