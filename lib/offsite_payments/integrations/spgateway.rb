@@ -1,20 +1,25 @@
-# encoding: utf-8
+# frozen_string_literal: true
+
 require 'digest'
-require File.dirname(__FILE__) + '/spgateway/helper.rb'
-require File.dirname(__FILE__) + '/spgateway/notification.rb'
+require "#{File.dirname(__FILE__)}/spgateway/helper.rb"
+require "#{File.dirname(__FILE__)}/spgateway/notification.rb"
+require "#{File.dirname(__FILE__)}/spgateway/trade_info.rb"
+require "#{File.dirname(__FILE__)}/spgateway/checksum"
+require "#{File.dirname(__FILE__)}/spgateway/encrypt_data"
 
-module OffsitePayments #:nodoc:
-  module Integrations #:nodoc:
-    module Spgateway
-
-      VERSION = '1.2'
+module OffsitePayments
+  module Integrations
+    module Spgateway # :nodoc:
       RESPOND_TYPE = 'String'
-      CHECK_VALUE_FIELDS = %w(Amt MerchantID MerchantOrderNo TimeStamp Version)
-      CHECK_CODE_FIELDS = %w(Amt MerchantID MerchantOrderNo TradeNo)
 
-      CONFIG = %w(
-        MerchantID LangType TradeLimit ExpireDate NotifyURL EmailModify LoginType
-      )
+      CONFIG = %w[
+        MerchantID
+      ].freeze
+
+      SERVICE_URL = {
+        production: 'https://core.newebpay.com/MPG/mpg_gateway',
+        development: 'https://ccore.newebpay.com/MPG/mpg_gateway'
+      }.freeze
 
       mattr_accessor :hash_key
       mattr_accessor :hash_iv
@@ -32,16 +37,7 @@ module OffsitePayments #:nodoc:
         return @service_url if @service_url
 
         mode = ActiveMerchant::Billing::Base.mode
-        case mode
-          when :production
-            'https://core.newebpay.com/MPG/mpg_gateway'
-          when :development
-            'https://ccore.newebpay.com/MPG/mpg_gateway'
-          when :test
-            'https://ccore.newebpay.com/MPG/mpg_gateway'
-          else
-            raise StandardError, "Integration mode set to an invalid value: #{mode}"
-        end
+        SERVICE_URL[mode] || SERVICE_URL[:development]
       end
 
       def self.notification(post)
@@ -51,7 +47,6 @@ module OffsitePayments #:nodoc:
       def self.setup
         yield(self)
       end
-
     end
   end
 end
