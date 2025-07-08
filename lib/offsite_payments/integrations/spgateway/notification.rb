@@ -20,6 +20,7 @@ module OffsitePayments
           IP
           EscrowBank
           TokenUseStatus
+          TokenValue
           RespondCode
           Auth
           Card6No
@@ -125,6 +126,7 @@ module OffsitePayments
             InstEach
             ECI
             TokenUseStatus
+            TokenValue
             RedAmt
             PaymentMethod
             DCC_Amt
