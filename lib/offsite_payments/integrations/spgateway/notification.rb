@@ -12,6 +12,7 @@ module OffsitePayments
           MerchantID
           Amt
           TradeNo
+          TradeStatus
           MerchantOrderNo
           PaymentType
           RespondType
@@ -109,6 +110,7 @@ module OffsitePayments
             MerchantID
             Amt
             TradeNo
+            TradeStatus
             MerchantOrderNo
             PaymentType
             RespondType
