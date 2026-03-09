@@ -27,6 +27,7 @@ module OffsitePayments
           CreditRed
           CREDITAE
           ANDROIDPAY
+          APPLEPAY
           SAMSUNGPAY
           ESUNWALLET
           TAIWANPAY
