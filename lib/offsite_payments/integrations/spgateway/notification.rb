@@ -31,7 +31,6 @@ module OffsitePayments
           PayBankCode
           PayTime
           PayerAccount5Code
-          PaymentDay
           PaymentType
           RespondCode
           RespondType
@@ -134,7 +133,6 @@ module OffsitePayments
             PayBankCode
             PayTime
             PayerAccount5Code
-            PaymentDay
             PaymentMethod
             PaymentType
             RedAmt
