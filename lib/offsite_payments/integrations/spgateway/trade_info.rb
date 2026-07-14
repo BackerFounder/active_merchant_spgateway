@@ -7,50 +7,49 @@ module OffsitePayments
         attr_reader :fields
 
         TRADE_INFO_FIELDS = %w[
-          MerchantID
-          Version
-          LangType
-          MerchantOrderNo
           Amt
-          ItemDesc
-          TradeLimit
-          ExpireDate
-          ReturnURL
-          NotifyURL
-          CustomerURL
-          ClientBackURL
-          Email
-          EmailModify
-          LoginType
-          OrderComment
-          CREDIT
-          CreditRed
-          CREDITAE
           ANDROIDPAY
           APPLEPAY
-          SAMSUNGPAY
-          ESUNWALLET
-          TAIWANPAY
-          LINEPAY
-          ImageUrl
-          InstFlag
-          UNIONPAY
-          FULA
-          WEBATM
-          VACC
-          CVS
+          BankType
           BARCODE
+          ClientBackURL
+          CREDIT
+          CREDITAE
+          CREDITAGREEMENT
+          CreditRed
           CUSTOM
+          CustomerURL
+          CVS
           CVSCOM
+          Email
+          EmailModify
+          ESUNWALLET
+          ExpireDate
+          EZPALIPAY
           EZPAY
           EZPWECHAT
-          EZPALIPAY
+          FULA
+          ImageUrl
+          InstFlag
+          ItemDesc
+          LangType
           LgsType
-          TokenTerm
-          BankType
-          CREDITAGREEMENT
+          LINEPAY
+          LoginType
+          MerchantID
+          MerchantOrderNo
+          NotifyURL
           OrderComment
+          ReturnURL
+          SAMSUNGPAY
+          TAIWANPAY
           TokenLife
+          TokenTerm
+          TradeLimit
+          UNIONPAY
+          VACC
+          Version
+          WEBATM
         ].freeze
 
         def initialize

@@ -7,41 +7,41 @@ module OffsitePayments
     module Spgateway
       class Notification < OffsitePayments::Notification # :nodoc:
         PARAMS_FIELDS = %w[
-          Status
-          Message
-          MerchantID
           Amt
-          TradeNo
-          TradeStatus
-          MerchantOrderNo
-          PaymentType
-          RespondType
-          CheckCode
-          PayTime
-          IP
-          EscrowBank
-          TokenUseStatus
-          TokenValue
-          RespondCode
           Auth
-          Card6No
-          Card4No
-          Inst
-          InstFirst
-          InstEach
-          ECI
-          PayBankCode
-          PayerAccount5Code
-          CodeNo
           BankCode
           Barcode_1
           Barcode_2
           Barcode_3
-          ExpireDate
+          Card4No
+          Card6No
           CheckCode
-          TradeSha
-          Version
+          CodeNo
+          ECI
           EncryptType
+          EscrowBank
+          ExpireDate
+          IP
+          Inst
+          InstEach
+          InstFirst
+          MerchantID
+          MerchantOrderNo
+          Message
+          PayBankCode
+          PayTime
+          PayerAccount5Code
+          PaymentDay
+          PaymentType
+          RespondCode
+          RespondType
+          Status
+          TokenUseStatus
+          TokenValue
+          TradeNo
+          TradeSha
+          TradeStatus
+          Version
         ].freeze
 
         def initialize(post, options = {})
@@ -105,48 +105,48 @@ module OffsitePayments
           attr_reader :params
 
           TRADE_INFO_FIELDS = %w[
-            Status
-            Message
-            MerchantID
             Amt
-            TradeNo
-            TradeStatus
-            MerchantOrderNo
-            PaymentType
-            RespondType
-            CheckCode
-            PayTime
-            IP
-            EscrowBank
-            AuthBank
-            RespondCode
             Auth
-            Card6No
-            Card4No
-            Inst
-            InstFirst
-            InstEach
-            ECI
-            TokenUseStatus
-            TokenValue
-            RedAmt
-            PaymentMethod
-            DCC_Amt
-            DCC_Rate
-            DCC_Markup
-            DCC_Currency
-            DCC_Currency_Code
-            PayBankCode
-            PayerAccount5Code
-            CodeNo
-            StoreType
-            StoreID
+            AuthBank
             BankCode
             Barcode_1
             Barcode_2
             Barcode_3
-            ExpireDate
+            Card4No
+            Card6No
             CheckCode
+            CodeNo
+            DCC_Amt
+            DCC_Currency
+            DCC_Currency_Code
+            DCC_Markup
+            DCC_Rate
+            ECI
+            EscrowBank
+            ExpireDate
+            IP
+            Inst
+            InstEach
+            InstFirst
+            MerchantID
+            MerchantOrderNo
+            Message
+            PayBankCode
+            PayTime
+            PayerAccount5Code
+            PaymentDay
+            PaymentMethod
+            PaymentType
+            RedAmt
+            RespondCode
+            RespondType
+            Status
+            StoreID
+            StoreType
+            TokenUseStatus
+            TokenValue
+            TradeNo
+            TradeStatus
           ].freeze
 
           TRADE_INFO_FIELDS.each do |field|
