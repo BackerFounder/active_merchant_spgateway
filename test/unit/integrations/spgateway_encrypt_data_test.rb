@@ -5,6 +5,9 @@ require 'test_helper'
 class SpgatewayEncryptDataTest < Test::Unit::TestCase
   include OffsitePayments::Integrations
 
+  HASH_KEY = 'Fs5cX1TGqYM2PpdbE14a9H83YQSQF5jn'
+  HASH_IV = 'C6AcmfqJILwgnhIP'
+
   def setup; end
 
   def test_encrypt
@@ -22,5 +25,51 @@ class SpgatewayEncryptDataTest < Test::Unit::TestCase
 
     assert_equal 'Status=SUCCESS&Message=%E6%8E%88%E6%AC%8A%E6%88%90%E5%8A%9F&MerchantID=MS127874575&Amt=30&TradeNo=23092714215835071&MerchantOrderNo=Vanespl_ec_1695795668&RespondType=String&IP=123.51.237.115&EscrowBank=HNCB&PaymentType=CREDIT&RespondCode=00&Auth=115468&Card6No=400022&Card4No=1111&Exp=2609&AuthBank=KGI&TokenUseStatus=0&InstFirst=0&InstEach=0&Inst=0&ECI=&PayTime=2023-09-27+14%3A21%3A59&PaymentMethod=CREDIT', # rubocop:disable Layout/LineLength
                  result
+  end
+
+  def test_decrypt_round_trip
+    plain = 'Status=SUCCESS&Amt=30'
+    encrypted = Spgateway::EncryptData.encrypt(plain, HASH_KEY, HASH_IV)
+
+    assert_equal plain, Spgateway::EncryptData.decrypt(encrypted, HASH_KEY, HASH_IV)
+  end
+
+  def test_decrypt_with_32_bytes_padding
+    plain = 'A' * 32
+
+    assert_equal plain, decrypt_raw(plain + (32.chr * 32))
+  end
+
+  def test_decrypt_returns_false_when_last_byte_is_regexp_metacharacter
+    # 舊寫法會用 '*' 重複 42 次組正則，丟出 RegexpError
+    assert_equal false, decrypt_raw(('A' * 31) + '*')
+    assert_equal false, decrypt_raw(('A' * 31) + '(')
+  end
+
+  def test_decrypt_returns_false_when_padding_is_zero
+    assert_equal false, decrypt_raw(('A' * 31) + 0.chr)
+  end
+
+  def test_decrypt_returns_false_when_padding_exceeds_block_size
+    assert_equal false, decrypt_raw(33.chr * 48)
+  end
+
+  def test_decrypt_returns_false_when_padding_bytes_are_inconsistent
+    # padding 只看結尾，中間出現相同 bytes 不算
+    assert_equal false, decrypt_raw(('A' * 10) + (3.chr * 3) + ('B' * 2) + 3.chr)
+  end
+
+  private
+
+  # 不經過 OpenSSL padding，直接加密指定的明文（長度需為 16 的倍數）
+  def decrypt_raw(plain)
+    cipher = OpenSSL::Cipher.new('AES-256-CBC')
+    cipher.encrypt
+    cipher.padding = 0
+    cipher.key = HASH_KEY
+    cipher.iv = HASH_IV
+    encrypted = (cipher.update(plain) + cipher.final).unpack1('H*')
+
+    Spgateway::EncryptData.decrypt(encrypted, HASH_KEY, HASH_IV)
   end
 end
